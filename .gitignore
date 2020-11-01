@@ -1,0 +1,4 @@
+/.vscode
+*.wav
+*.py[c|o|d]
+*_pycache_
