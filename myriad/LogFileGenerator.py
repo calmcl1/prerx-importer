@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 def createHourStart(hour_date: datetime, description: str):
-    return "+" + hour_date.strftime("%Y/%m/%d %H:%M") + description[:20]
+    return "+" + hour_date.strftime("%d/%m/%Y %H:%M") + " " + description[:20]
 
 
 def createCmdSetAutoOn(min: int, sec: int):

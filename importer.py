@@ -15,7 +15,7 @@ parser.add_argument("files", action="store", nargs="*")
 
 parsed_args = parser.parse_args(sys.argv[1:])
 
-audio_files: list[str] = parsed_args.files
+audio_files: list = parsed_args.files
 if(len(audio_files) % 2 != 0):
     print("Amount of audio files must be divisible by two!")
     exit(1)
@@ -96,19 +96,19 @@ for i in range(0, len(audio_files)):
         os.path.dirname(audio_files[i]), new_file_name))
 
 # Convert the audio files to Wav, if necessary
-converted_audio_files: list[str] = []
+converted_audio_files: list = []
 
 for f in audio_files:
     if not os.path.splitext(f)[1].lower() == ".wav":
         print("Converting to wav file: {0}".format(f))
 
-        proc = subprocess.Popen(["ffmpeg"
-                                 "-i", f,
-                                 "-c:a", "pcm_s16le",
-                                 "-y",
-                                 os.path.abspath(os.path.splitext(
-                                     f)[0] + ".wav")
-                                 ], shell=True)
+        proc = Popen(["ffmpeg",
+                      "-i", f,
+                      "-c:a", "pcm_s16le",
+                      "-y",
+                      os.path.abspath(os.path.splitext(
+                          f)[0] + ".wav")
+                      ], shell=True)
         proc.wait()
 
     converted_audio_files.append(os.path.splitext(f)[0] + ".wav")
