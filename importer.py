@@ -152,7 +152,8 @@ for i in range(0, len(audio_files)):
         f"Importing {os.path.basename(converted_audio_files[i])} to cart {start_cart + i}")
     if not myriad_host.send(
             f"AUDIOWALL IMPORTFILE \"{converted_audio_files[i]}\",{start_cart + i}"):
-        print("Failed to import cart!")
+        print("Failed to import cart!"+converted_audio_files[i])
+        exit(4)
 
 # Create log file for hour
 print("Creating Myriad Log file...")
