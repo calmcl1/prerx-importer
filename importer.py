@@ -137,6 +137,7 @@ while not cart_range_found and start_cart < 1600:
 
             cart_range_found = True
 
+myriad_host.send("AUDIOWALL EJECT 1")
 if cart_range_found:
     print("Found carts: {0}-{1}".format(start_cart,
                                         start_cart+len(converted_audio_files)-1))
