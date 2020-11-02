@@ -1,5 +1,5 @@
 # from myriad import MyriadHost
-from myriad import myriadhost, LogFileGenerator
+from myriad import myriadhost, LogFileGenerator, CartFinder
 import pydub
 import argparse
 import sys
@@ -163,15 +163,16 @@ with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%
                 datetime_start.strftime("%H"))+int(i/2)), f"{presenter_name}'s Pre-Record"), "\n",
             LogFileGenerator.createCmdSetAutoOn(0, 0), "\n",
             LogFileGenerator.createCart(
-                1, "RNH NEWS + JINGLE + AD", "RADIO NEWSHUB", 4, 2, 30), "\n",
-            LogFileGenerator.createCmdSetAutoOn(0, 0), "\n",
+                15000, "RNH NEWS + JINGLE + AD", "RADIO NEWSHUB", 4, 2, 30), "\n",
             LogFileGenerator.createCart(
                 start_cart+i, f"{presenter_name}'s Pre-Record Part {i+1}", presenter_name, 2, 28, 00), "\n",
-            LogFileGenerator.createLink(10, "Station Ident"), "\n",
+            LogFileGenerator.createLink(
+                CartFinder.findStationIdent(), "Station Ident"), "\n",
             LogFileGenerator.createAdBreak(30), "\n",
             LogFileGenerator.createCart(
-                14999, "RNH Advert", "Radio Newshub", 2, 0, 30), "\n",
-            LogFileGenerator.createLink(10, "Station Ident"), "\n",
+                CartFinder.findRNHAd(), "RNH Advert", "Radio Newshub", 2, 0, 30), "\n",
+            LogFileGenerator.createLink(
+                CartFinder.findStationIdent(), "Station Ident"), "\n",
             LogFileGenerator.createCart(
                 start_cart+i+1, f"{presenter_name}'s Pre-Record Part {i+2}", presenter_name, 2, 28, 00), "\n",
             LogFileGenerator.createLink(10, "Station Ident"), "\n",
