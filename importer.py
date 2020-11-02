@@ -180,5 +180,7 @@ with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%
                 start_cart+i+1, f"{presenter_name}'s Pre-Record Part {i+2}", presenter_name, 2, 28, 00), "\n",
             LogFileGenerator.createLink(10, "Station Ident"), "\n",
             LogFileGenerator.createAdBreak(58), "\n",
-            LogFileGenerator.createAbsoluteTime(59, 45), "\n"
+            LogFileGenerator.createAbsoluteTime(59, 45), "\n",
+            LogFileGenerator.createCart(
+                14997, "News In", "HCR News In", 3, 0, 16), "\n"
         ])
