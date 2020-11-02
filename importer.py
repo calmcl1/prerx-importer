@@ -159,7 +159,7 @@ for i in range(0, len(audio_files)):
 # Create log file for hour
 print("Creating Myriad Log file...")
 
-with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%d.LOG")}'), "w") as log_file:
+with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%d.LOG")}'), "a") as log_file:
     for i in range(0, len(converted_audio_files), 2):
         log_file.writelines([
             LogFileGenerator.createHourStart(datetime_start.replace(hour=int(
