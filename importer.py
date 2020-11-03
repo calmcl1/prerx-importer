@@ -192,13 +192,20 @@ with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%
         # NEWS IN JINGLE
 
         log_file.writelines([
+            # Hour Start
             LogFileGenerator.createHourStart(datetime_start.replace(hour=int(
                 datetime_start.strftime("%H"))+int(i/2)), f"{presenter_name}'s Pre-Record"), "\n",
             LogFileGenerator.createCmdSetAutoOn(0, 0), "\n",
+
+            # News
             LogFileGenerator.createCart(
                 15000, "RNH NEWS + JINGLE + AD", "RADIO NEWSHUB", 4, 2, 30), "\n",
+
+            # Pre-rec part 1
             LogFileGenerator.createCart(
                 start_cart+i, f"{presenter_name}'s Pre-Record Part {i+1}", presenter_name, 2, 28, 00), "\n",
+
+            # Jingles and ad break 1
             LogFileGenerator.createLink(
                 CartFinder.findStationIdent(), "Station Ident"), "\n",
             LogFileGenerator.createAdBreak(30), "\n",
@@ -206,10 +213,17 @@ with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%
                 CartFinder.findRNHAd(), "RNH Advert", "Radio Newshub", 2, 0, 30), "\n",
             LogFileGenerator.createLink(
                 CartFinder.findStationIdent(), "Station Ident"), "\n",
+
+            # Pre-rec part 2
             LogFileGenerator.createCart(
                 start_cart+i+1, f"{presenter_name}'s Pre-Record Part {i+2}", presenter_name, 2, 28, 00), "\n",
-            LogFileGenerator.createLink(10, "Station Ident"), "\n",
+
+            # Jingles and ad break 2
+            LogFileGenerator.createLink(
+                CartFinder.findStationIdent(), "Station Ident"), "\n",
             LogFileGenerator.createAdBreak(58), "\n",
+
+            # End of hour + news
             LogFileGenerator.createAbsoluteTime(59, 45), "\n",
             LogFileGenerator.createCart(
                 14997, "News In", "HCR News In", 3, 0, 16), "\n"
