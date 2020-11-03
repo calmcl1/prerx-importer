@@ -8,7 +8,7 @@ import os
 import os.path
 from shutil import move
 from subprocess import Popen
-from datetime import datetime
+from datetime import datetime, timedelta
 
 parser = argparse.ArgumentParser()
 parser.add_argument("files", action="store", nargs="*")
@@ -35,7 +35,7 @@ if is_correct_order == "n":
     exit(2)
 
 # Determine what time the files are to be scheduled
-datetime_start = datetime.now().replace(minute=0, second=0)
+datetime_start = datetime.now().replace(minute=0, second=0, microsecond=0)
 date_input = "-1"
 while True:
     try:
@@ -85,6 +85,11 @@ presenter_name = ""
 
 while not presenter_name:
     presenter_name = input("Who is presenting this show?: ")
+
+datetime_end_of_last_hour = datetime_start + \
+    timedelta(hours=int(len(audio_files)/2), minutes=59, seconds=59)
+datetime_start_psq = datetime_start.strftime("%Y-%m-%dT%H:%M")
+datetime_end_psq = datetime_end_of_last_hour.strftime("%Y-%m-%dT%H:%M:%S")
 
 # Rename the audio files to our format
 print("Renaming files...")
@@ -158,7 +163,7 @@ for i in range(0, len(audio_files)):
 
 # Create log file for hour
 print("Creating Myriad Log file...")
-
+print(f"... show begins {datetime_start_psq}")
 with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%d.LOG")}'), "a") as log_file:
     for i in range(0, len(converted_audio_files), 2):
         log_file.writelines([
@@ -184,3 +189,7 @@ with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%
             LogFileGenerator.createCart(
                 14997, "News In", "HCR News In", 3, 0, 16), "\n"
         ])
+print(f"... show ends {datetime_end_psq}")
+
+print("Attempting to remove the hour from the scheduled log...")
+myriad_host.send(f"LOG REMOVE RANGE,{datetime_start_psq},{datetime_end_psq}")
