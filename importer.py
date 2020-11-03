@@ -143,7 +143,10 @@ while not cart_range_found and start_cart < 1600:
 
             cart_range_found = True
 
+# Clear the cart we were using for testing
 myriad_host.send("AUDIOWALL EJECT 1")
+
+# Quit if no carts available
 if cart_range_found:
     print("Found carts: {0}-{1}".format(start_cart,
                                         start_cart+len(converted_audio_files)-1))
@@ -156,8 +159,14 @@ print("Importing audio to AudioWall...")
 for i in range(0, len(audio_files)):
     print(
         f"Importing {os.path.basename(converted_audio_files[i])} to cart {start_cart + i}")
-    if not myriad_host.send(
-            f"AUDIOWALL IMPORTFILE \"{converted_audio_files[i]}\",{start_cart + i}"):
+    myriad_import_cmd = f"AUDIOWALL IMPORTFILE \"{converted_audio_files[i]}\",{start_cart + i}"
+
+    # Delete the converted WAV file, if it's not the original
+    if os.path.basename(converted_audio_files[i]) != os.path.basename(audio_files[i]):
+        myriad_import_cmd += ",DELETE"
+
+    # And finally import the audio
+    if not myriad_host.send(myriad_import_cmd):
         print("Failed to import cart! "+converted_audio_files[i])
         exit(4)
 
@@ -166,6 +175,19 @@ print("Creating Myriad Log file...")
 print(f"... show begins {datetime_start_psq}")
 with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%d.LOG")}'), "a") as log_file:
     for i in range(0, len(converted_audio_files), 2):
+        # The format per hour should be:
+        # HOUR START
+        # NEWS
+        # PRE-REC PART 1
+        # JINGLE
+        # AD BREAK 1
+        # JINGLE
+        # PRE-REC PART 2
+        # JINGLE
+        # AD BREAK PART 2
+        # ABSOLUTE TIME: 59:45
+        # NEWS IN JINGLE
+
         log_file.writelines([
             LogFileGenerator.createHourStart(datetime_start.replace(hour=int(
                 datetime_start.strftime("%H"))+int(i/2)), f"{presenter_name}'s Pre-Record"), "\n",
@@ -191,5 +213,6 @@ with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%
         ])
 print(f"... show ends {datetime_end_psq}")
 
+# The hour may already have been scheduled in advance, so remove it
 print("Attempting to remove the hour from the scheduled log...")
 myriad_host.send(f"LOG REMOVE RANGE,{datetime_start_psq},{datetime_end_psq}")
