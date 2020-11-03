@@ -87,7 +87,7 @@ while not presenter_name:
     presenter_name = input("Who is presenting this show?: ")
 
 datetime_end_of_last_hour = datetime_start + \
-    timedelta(hours=int(len(audio_files)/2), minutes=59, seconds=59)
+    timedelta(hours=int(len(audio_files)/2)-1, minutes=59, seconds=59)
 datetime_start_psq = datetime_start.strftime("%Y-%m-%dT%H:%M")
 datetime_end_psq = datetime_end_of_last_hour.strftime("%Y-%m-%dT%H:%M:%S")
 
@@ -179,10 +179,13 @@ with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%
         # HOUR START
         # NEWS
         # PRE-REC PART 1
+        #
         # JINGLE
         # AD BREAK 1
         # JINGLE
+        #
         # PRE-REC PART 2
+        #
         # JINGLE
         # AD BREAK PART 2
         # ABSOLUTE TIME: 59:45
