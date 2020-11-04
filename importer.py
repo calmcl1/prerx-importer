@@ -183,6 +183,10 @@ for i in range(0, len(audio_files)):
         print("Failed to import cart! "+converted_audio_files[i])
         exit(4)
 
+    # Myriad crashes if it imports too much, too quickly
+    if(i != len(audio_files)-1):
+        time.sleep(8)
+
 # Create log file for hour
 print("Creating Myriad Log file...")
 print(f"... show begins {datetime_start_psq}")
