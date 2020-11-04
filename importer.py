@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 parser = argparse.ArgumentParser()
 parser.add_argument("files", action="store", nargs="*")
-parser.add_argument("--data-directory", action=store,
+parser.add_argument("--data-directory", action="store",
                     nargs="?", dest="psq_data_dir", default="C:\\PSquared\\", help="Path to the PSquared data directory containing the Audiowall folder")
 parser.add_argument("--logs-directory", action="store", nargs="?", dest="logs_dir",
                     default="C:\\PSquared\\Logs", help="Path to write the music logs to")
