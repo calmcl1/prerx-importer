@@ -69,7 +69,7 @@ def reorderLogFile(log_file_path: str):
         log_file.writelines(sorted_hours)
 
 
-def writeLogFile(log_entry_lines: list):
+def writeLogFile(log_directory: str, log_entry_lines: list):
     # Concat each string of log hours into string hour-chunks
 
     log_hours = splitLogToHours(log_entry_lines)

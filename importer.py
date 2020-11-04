@@ -1,8 +1,7 @@
-# from myriad import MyriadHost
 from myriad import myriadhost, LogFileGenerator, CartFinder
-import pydub
+# import pydub - this could be used to detect and strip out silence at the start/end
 import argparse
-import sys
+from sys import argv
 import time
 import os
 import os.path
@@ -12,15 +11,19 @@ from datetime import datetime, timedelta
 
 parser = argparse.ArgumentParser()
 parser.add_argument("files", action="store", nargs="*")
+parser.add_argument("--data-directory", action=store,
+                    nargs="?", dest="psq_data_dir", default="C:\\PSquared\\", help="Path to the PSquared data directory containing the Audiowall folder")
+parser.add_argument("--logs-directory", action="store", nargs="?", dest="logs_dir",
+                    default="C:\\PSquared\\Logs", help="Path to write the music logs to")
 
-parsed_args = parser.parse_args(sys.argv[1:])
+parsed_args = parser.parse_args(argv[1:])
 
 audio_files: list = parsed_args.files
 if(len(audio_files) % 2 != 0):
     print("Amount of audio files must be divisible by two!")
     exit(1)
 
-# Sort the audio files into the correct order
+# Sort the audio files into the correct order - 2x 28min files per hour
 audio_files = sorted(audio_files)
 print("Supplied audio files have been sorted into the following order:")
 for f in audio_files:
@@ -137,7 +140,7 @@ while not cart_range_found and start_cart < 1600:
     #print("Trying cart {0}".format(start_cart))
     #start_result = myriad_host.send("AUDIOWALL CUE 1,{0}".format(start_cart))
     start_result = os.path.exists(os.path.join(
-        "C:\\PSquared\\Audiowall\\1000s", f"MYR{start_cart:0>5}.wav"))
+        parsed_args.psq_data_dir, "Audiowall", "1000s", f"MYR{start_cart:0>5}.wav"))
 
     if start_result:  # Cart exists, move on
         start_cart += 1
@@ -147,7 +150,7 @@ while not cart_range_found and start_cart < 1600:
             # range_result = myriad_host.send(
             #     "AUDIOWALL CUE 1,{0}".format(start_cart + i))
             range_result = os.path.exists(os.path.join(
-                "C:\\PSquared\\Audiowall\\1000s", f"MYR{test_cart:0>5}.wav"))
+                parsed_args.psq_data_dir, "Audiowall", "1000s", f"MYR{test_cart:0>5}.wav"))
             # print(os.path.join(
             #     "C:\\PSquared\\Audiowall\\1000s", f"MYR{test_cart:0>5}.wav"))
             # print(range_result)
@@ -252,7 +255,7 @@ for i in range(0, len(converted_audio_files), 2):
 print(f"... show ends {datetime_end_psq}")
 
 print("Writing log file...")
-LogFileGenerator.writeLogFile(log_entry)
+LogFileGenerator.writeLogFile(parsed_args.logs_dir, log_entry)
 
 # The hour may already have been scheduled in advance, so remove it
 print("Attempting to remove the hour from the scheduled log...")
