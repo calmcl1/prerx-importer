@@ -18,6 +18,12 @@ parser.add_argument("--logs-directory", action="store", nargs="?", dest="logs_di
 
 parsed_args = parser.parse_args(argv[1:])
 
+if not os.path.exists(parsed_args.psq_data_dir) or not os.path.exists(os.path.join(parsed_args.psq_data_dir, "Audiowall")):
+    print("Could not find Audiowall directory under supplied Myriad data directory:")
+    print(parsed_args.psq_data_dir)
+    print("Are you sure this is correct?")
+    print("Use the --data-directory switch to supply an alternative directory.")
+
 audio_files: list = parsed_args.files
 if(len(audio_files) % 2 != 0):
     print("Amount of audio files must be divisible by two!")
