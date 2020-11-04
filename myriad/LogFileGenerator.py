@@ -87,7 +87,7 @@ def writeLogFile(log_entry_lines: list):
         # Write the log hour to file
         date_current_hour = datetime.strptime(l[1:17], "%d/%m/%Y %H:%M")
         current_hour_log_path = os.path.join(
-            "C:\\PSquared\\Logs"), date_current_hour.strftime("MY%y%m%d.LOG")
+            "C:\\PSquared\\Logs", date_current_hour.strftime("MY%y%m%d.LOG"))
 
         # If it already exists, keep track of it as one we'll need to sort by hour later
         if os.path.exists(current_hour_log_path) and not current_hour_log_path in log_files_to_reorganize:
