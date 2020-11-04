@@ -18,6 +18,7 @@ This tool automatically imports audio files matching HCR's format specification 
 ## Notes For Third Parties:
 
 -   This tool will generate the requisite log files, but will *not* schedule them in playout. This is left to be done at the user's discretion.
+-   This tool will remove the hour that the pre-recorded show is due to play out from the log, if it is already scheduled.
 -   The format of the generated hour is hardcoded, but can be changed relatively easily using the `LogFileGenerator` set of functions.
 -   The generated logs currently follow the default Myriad naming convention: `MY<YYMMDD>.LOG`.
 -   The tool will convert the supplied audio files to WAV before importing to the Audiowall.
