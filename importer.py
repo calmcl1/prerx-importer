@@ -135,8 +135,11 @@ while not cart_range_found and start_cart < 1600:
         start_cart += 1
     else:  # Cart does not exist her, try the next cart
         for i in range(1, len(converted_audio_files) + 1):
-            range_result = myriad_host.send(
-                "AUDIOWALL CUE 1,{0}".format(start_cart + i))
+            test_cart = start_cart+i
+            # range_result = myriad_host.send(
+            #     "AUDIOWALL CUE 1,{0}".format(start_cart + i))
+            range_result = os.path.exists(os.path.join(
+                "C:\\PSquared\\Audiowall\\1000s", f"MYR{test_cart:0>5}.wav"))
             if range_result:
                 start_cart += i+1
                 break
@@ -187,7 +190,7 @@ with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%
         # PRE-REC PART 2
         #
         # JINGLE
-        # AD BREAK PART 2
+        # AD BREAK 2
         # ABSOLUTE TIME: 59:45
         # NEWS IN JINGLE
 
