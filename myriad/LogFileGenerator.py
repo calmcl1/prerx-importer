@@ -85,7 +85,7 @@ def writeLogFile(log_entry_lines: list):
 
     for l in log_hours:
         # Write the log hour to file
-        date_current_hour = datetime.strptime(l, "%d/%m/%Y %H:%M")
+        date_current_hour = datetime.strptime(l[1:17], "%d/%m/%Y %H:%M")
         current_hour_log_path = os.path.join(
             "C:\\PSquared\\Logs"), date_current_hour.strftime("MY%y%m%d.LOG")
 
