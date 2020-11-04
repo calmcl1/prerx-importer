@@ -102,25 +102,28 @@ for i in range(0, len(audio_files)):
 
 # Convert the audio files to Wav, if necessary
 converted_audio_files: list = []
-
+converter_processes = []
 for f in audio_files:
     if not os.path.splitext(f)[1].lower() == ".wav":
         print("Converting to wav file: {0}".format(f))
 
-        proc = Popen(["ffmpeg",
-                      "-i", f,
-                      "-c:a", "pcm_s16le",
-                      "-metadata", f'title="{os.path.basename(f)}"',
-                      "-metadata", f'artist="{presenter_name}"',
-                      "-metadata", f'copyright="HCR"',
-                      "-y",
-                      os.path.abspath(os.path.splitext(
-                          f)[0] + ".wav")
-                      ], shell=True)
-        proc.wait()
+        converter_processes.append(Popen(["ffmpeg",
+                                          "-i", f,
+                                          "-c:a", "pcm_s16le",
+                                          "-metadata", f'title="{os.path.basename(f)}"',
+                                          "-metadata", f'artist="{presenter_name}"',
+                                          "-metadata", f'copyright="HCR"',
+                                          "-y",
+                                          os.path.abspath(os.path.splitext(
+                                              f)[0] + ".wav")
+                                          ], shell=True)
+                                   )
 
     converted_audio_files.append(
         os.path.abspath(os.path.splitext(f)[0] + ".wav"))
+
+for proc in converter_processes:
+    proc.wait()
 
 # Try to import the carts into Myriad
 # First, find the first range of carts free from 1501
