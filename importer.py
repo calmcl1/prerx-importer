@@ -188,64 +188,68 @@ for i in range(0, len(audio_files)):
         time.sleep(8)
 
 # Create log file for hour
-print("Creating Myriad Log file...")
+print("Creating Myriad Log entries...")
 print(f"... show begins {datetime_start_psq}")
-with open(os.path.join("C:\\PSquared\\Logs", f'{datetime_start.strftime("MY%y%m%d.LOG")}'), "a") as log_file:
-    for i in range(0, len(converted_audio_files), 2):
-        # The format per hour should be:
-        # HOUR START
-        # NEWS
-        # PRE-REC PART 1
-        #
-        # JINGLE
-        # AD BREAK 1
-        # JINGLE
-        #
-        # PRE-REC PART 2
-        #
-        # JINGLE
-        # AD BREAK 2
-        # ABSOLUTE TIME: 59:45
-        # NEWS IN JINGLE
+log_entry = []
 
-        log_file.writelines([
-            # Hour Start
-            LogFileGenerator.createHourStart(datetime_start.replace(hour=int(
-                datetime_start.strftime("%H"))+int(i/2)), f"{presenter_name}'s Pre-Record"), "\n",
-            LogFileGenerator.createCmdSetAutoOn(0, 0), "\n",
+for i in range(0, len(converted_audio_files), 2):
+    # The format per hour should be:
+    # HOUR START
+    # NEWS
+    # PRE-REC PART 1
+    #
+    # JINGLE
+    # AD BREAK 1
+    # JINGLE
+    #
+    # PRE-REC PART 2
+    #
+    # JINGLE
+    # AD BREAK 2
+    # ABSOLUTE TIME: 59:45
+    # NEWS IN JINGLE
 
-            # News
-            LogFileGenerator.createCart(
-                15000, "RNH NEWS + JINGLE + AD", "RADIO NEWSHUB", 4, 2, 30), "\n",
+    log_entry.extend([
+        # Hour Start
+        LogFileGenerator.createHourStart(datetime_start.replace(hour=int(
+            datetime_start.strftime("%H"))+int(i/2)), f"{presenter_name}'s Pre-Record"),
+        LogFileGenerator.createCmdSetAutoOn(0, 0),
 
-            # Pre-rec part 1
-            LogFileGenerator.createCart(
-                start_cart+i, f"{presenter_name}'s Pre-Record Part {i+1}", presenter_name, 2, 28, 00), "\n",
+        # News
+        LogFileGenerator.createCart(
+            15000, "RNH NEWS + JINGLE + AD", "RADIO NEWSHUB", 4, 2, 30),
 
-            # Jingles and ad break 1
-            LogFileGenerator.createLink(
-                CartFinder.findStationIdent(), "Station Ident"), "\n",
-            LogFileGenerator.createAdBreak(30), "\n",
-            LogFileGenerator.createCart(
-                CartFinder.findRNHAd(), "RNH Advert", "Radio Newshub", 2, 0, 30), "\n",
-            LogFileGenerator.createLink(
-                CartFinder.findStationIdent(), "Station Ident"), "\n",
+        # Pre-rec part 1
+        LogFileGenerator.createCart(
+            start_cart+i, f"{presenter_name}'s Pre-Record Part {i+1}", presenter_name, 2, 28, 00),
 
-            # Pre-rec part 2
-            LogFileGenerator.createCart(
-                start_cart+i+1, f"{presenter_name}'s Pre-Record Part {i+2}", presenter_name, 2, 28, 00), "\n",
+        # Jingles and ad break 1
+        LogFileGenerator.createLink(
+            CartFinder.findStationIdent(), "Station Ident"),
+        LogFileGenerator.createAdBreak(30),
+        LogFileGenerator.createCart(
+            CartFinder.findRNHAd(), "RNH Advert", "Radio Newshub", 2, 0, 30),
+        LogFileGenerator.createLink(
+            CartFinder.findStationIdent(), "Station Ident"),
 
-            # Jingles and ad break 2
-            LogFileGenerator.createLink(
-                CartFinder.findStationIdent(), "Station Ident"), "\n",
-            LogFileGenerator.createAdBreak(58), "\n",
+        # Pre-rec part 2
+        LogFileGenerator.createCart(
+            start_cart+i+1, f"{presenter_name}'s Pre-Record Part {i+2}", presenter_name, 2, 28, 00),
 
-            # End of hour + news
-            LogFileGenerator.createAbsoluteTime(59, 45), "\n",
-            LogFileGenerator.createCart(
-                14997, "News In", "HCR News In", 3, 0, 16), "\n"
-        ])
+        # Jingles and ad break 2
+        LogFileGenerator.createLink(
+            CartFinder.findStationIdent(), "Station Ident"),
+        LogFileGenerator.createAdBreak(58),
+
+        # End of hour + news
+        LogFileGenerator.createAbsoluteTime(59, 45),
+        LogFileGenerator.createCart(
+            14997, "News In", "HCR News In", 3, 0, 16)
+    ])
 print(f"... show ends {datetime_end_psq}")
+
+print("Writing log file...")
+LogFileGenerator.writeLogFile(log_entry)
 
 # The hour may already have been scheduled in advance, so remove it
 print("Attempting to remove the hour from the scheduled log...")
