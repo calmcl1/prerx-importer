@@ -110,9 +110,9 @@ for f in audio_files:
         converter_processes.append(Popen(["ffmpeg",
                                           "-i", f,
                                           "-c:a", "pcm_s16le",
-                                          "-metadata", f'title="{os.path.basename(f)}"',
-                                          "-metadata", f'artist="{presenter_name}"',
-                                          "-metadata", f'copyright="HCR"',
+                                          "-metadata", f'title={os.path.basename(f)}',
+                                          "-metadata", f'artist={presenter_name}',
+                                          "-metadata", f'copyright=HCR',
                                           "-y",
                                           os.path.abspath(os.path.splitext(
                                               f)[0] + ".wav")
@@ -188,7 +188,7 @@ for i in range(0, len(audio_files)):
 
     # Myriad crashes if it imports too much, too quickly
     if(i != len(audio_files)-1):
-        time.sleep(8)
+        time.sleep(15)
 
 # Create log file for hour
 print("Creating Myriad Log entries...")
