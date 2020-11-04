@@ -110,8 +110,9 @@ for f in audio_files:
         proc = Popen(["ffmpeg",
                       "-i", f,
                       "-c:a", "pcm_s16le",
-                      "-metadata", f'title="{os.path.basename(f)}"',
-                      "-metadata", f'artist="{presenter_name}"',
+                      f'-metadata title="{os.path.basename(f)}"',
+                      f'-metadata artist="{presenter_name}"',
+                      f'-metadata copyright="HCR"',
                       "-y",
                       os.path.abspath(os.path.splitext(
                           f)[0] + ".wav")
