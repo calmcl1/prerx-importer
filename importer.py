@@ -23,6 +23,7 @@ if not os.path.exists(parsed_args.psq_data_dir) or not os.path.exists(os.path.jo
     print(parsed_args.psq_data_dir)
     print("Are you sure this is correct?")
     print("Use the --data-directory switch to supply an alternative directory.")
+    exit(4)
 
 audio_files: list = parsed_args.files
 if(len(audio_files) % 2 != 0):
