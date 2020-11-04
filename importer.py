@@ -128,26 +128,35 @@ print("Finding free space for carts in AudioWall...")
 start_cart = 1501
 cart_range_found = False
 while not cart_range_found and start_cart < 1600:
-    # print("Trying cart {0}".format(start_cart))
-    start_result = myriad_host.send("AUDIOWALL CUE 1,{0}".format(start_cart))
+    print("Trying cart {0}".format(start_cart))
+    #start_result = myriad_host.send("AUDIOWALL CUE 1,{0}".format(start_cart))
+    start_result = os.path.exists(os.path.join(
+        "C:\\PSquared\\Audiowall\\1000s", f"MYR{start_cart:0>5}.wav"))
 
     if start_result:  # Cart exists, move on
         start_cart += 1
-    else:  # Cart does not exist her, try the next cart
-        for i in range(1, len(converted_audio_files) + 1):
+    else:  # Cart does not exist here, try the next carts
+        for i in range(1, len(audio_files)):
             test_cart = start_cart+i
             # range_result = myriad_host.send(
             #     "AUDIOWALL CUE 1,{0}".format(start_cart + i))
             range_result = os.path.exists(os.path.join(
                 "C:\\PSquared\\Audiowall\\1000s", f"MYR{test_cart:0>5}.wav"))
+            # print(os.path.join(
+            #     "C:\\PSquared\\Audiowall\\1000s", f"MYR{test_cart:0>5}.wav"))
+            # print(range_result)
             if range_result:
                 start_cart += i+1
                 break
 
-            cart_range_found = True
+            # print(i)
+            if test_cart == start_cart+len(audio_files)-1:
+                cart_range_found = True
+
+print(f"Cart range found? {cart_range_found}")
 
 # Clear the cart we were using for testing
-myriad_host.send("AUDIOWALL EJECT 1")
+#myriad_host.send("AUDIOWALL EJECT 1")
 
 # Quit if no carts available
 if cart_range_found:
