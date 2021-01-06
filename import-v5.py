@@ -195,7 +195,7 @@ for i in range(0, len(audio_files)):
     myriad_args.extend(
         ["/Action=ImportMediaFile", f"/MediaId={start_cart+i}", f'/Filename="{converted_audio_files[i]}"'])
 
-    full_args = [MYRIAD_CL_PATH]
+    full_args = ["cmd", "/C", MYRIAD_CL_PATH]
     full_args.extend(myriad_args)
     print(" ".join(full_args))
     proc = run(full_args, shell=True)
