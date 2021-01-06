@@ -12,9 +12,9 @@ from datetime import datetime, timedelta
 parser = argparse.ArgumentParser()
 parser.add_argument("files", action="store", nargs="*")
 parser.add_argument("--media-directory", action="store",
-                    nargs="?", dest="media_dir", default="C:\\PSquared\\", help="Path to the Media folder")
+                    nargs="?", dest="media_dir", default="F:\\Myriad\\Media\\", help="Path to the Media folder")
 parser.add_argument("--logs-directory", action="store", nargs="?", dest="logs_dir",
-                    default="C:\\PSquared\\Logs", help="Path to write the music logs to")
+                    default="F:\\Myriad\\Logs\\Main\\", help="Path to write the music logs to")
 
 parsed_args = parser.parse_args(argv[1:])
 
