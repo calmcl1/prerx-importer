@@ -194,7 +194,10 @@ for i in range(0, len(audio_files)):
     myriad_args = MYRIAD_CL_ARGS.copy()
     myriad_args.extend(
         ["/Action=ImportMediaFile", f"/MediaId={i}", f"/Filename={os.path.basename(converted_audio_files[i])}"])
-    proc = run([MYRIAD_CL_PATH].extend(myriad_args))
+
+    full_args = [MYRIAD_CL_PATH]
+    full_args.extend(myriad_args)
+    proc = run(full_args)
     if(proc.returncode):
         print("Failed to import cart! "+converted_audio_files[i])
         exit(4)
