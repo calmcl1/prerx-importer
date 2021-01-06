@@ -191,7 +191,8 @@ for i in range(0, len(audio_files)):
         f"Importing {os.path.basename(converted_audio_files[i])} to cart {start_cart + i}")
 
     #myriad_import_cmd = f"AUDIOWALL IMPORTFILE \"{converted_audio_files[i]}\",{start_cart + i}"
-    myriad_args = MYRIAD_CL_ARGS.copy().extend(
+    myriad_args = MYRIAD_CL_ARGS.copy()
+    myriad_args.extend(
         ["/Action=ImportMediaFile", f"/MediaId={i}", f"/Filename={os.path.basename(converted_audio_files[i])}"])
     proc = run([MYRIAD_CL_PATH].extend(myriad_args))
     if(proc.returncode):
