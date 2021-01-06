@@ -86,7 +86,7 @@ def writeLogFile(log_directory: str, log_entry_lines: list, v5=False):
     for l in log_hours:
         # Write the log hour to file
         date_current_hour = datetime.strptime(l[1:17], "%d/%m/%Y %H:%M")
-        filename = date_current_hour.strftime("%y%m%d.LOG")) if v5 else date_current_hour.strftime("MY%y%m%d.LOG"))
+        filename = date_current_hour.strftime("%y%m%d.LOG")) if v5 else date_current_hour.strftime("MY%y%m%d.LOG")
         current_hour_log_path=os.path.join(
             log_directory, date_current_hour.strftime("MY%y%m%d.LOG"))
 
