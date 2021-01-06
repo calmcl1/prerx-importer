@@ -19,7 +19,7 @@ parser.add_argument("--logs-directory", action="store", nargs="?", dest="logs_di
 parsed_args = parser.parse_args(argv[1:])
 
 MYRIAD_CL_PATH = "C:\\Program Files (x86)\\Broadcast Radio\\Myriad Playout v5\\MyriadUtilityCL5.exe"
-MYRIAD_CL_ARGS = ["/Database", "HCR Mv5", "/Silent"]
+MYRIAD_CL_ARGS = ["/Database", '"HCR Mv5"', "/Silent"]
 
 if not os.path.exists(parsed_args.media_dir):
     print("Could not find Media directory:")
