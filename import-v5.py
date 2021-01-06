@@ -193,11 +193,11 @@ for i in range(0, len(audio_files)):
     #myriad_import_cmd = f"AUDIOWALL IMPORTFILE \"{converted_audio_files[i]}\",{start_cart + i}"
     myriad_args = MYRIAD_CL_ARGS.copy()
     myriad_args.extend(
-        ["/Action=ImportMediaFile", f"/MediaId={start_cart+i}", f"/Filename='{converted_audio_files[i]}'"])
+        ["/Action=ImportMediaFile", f"/MediaId={start_cart+i}", f'/Filename="{converted_audio_files[i]}"'])
 
     full_args = [MYRIAD_CL_PATH]
     full_args.extend(myriad_args)
-    print(full_args)
+    print(" ".join(full_args))
     proc = run(full_args)
     if(proc.returncode):
         print("Failed to import cart! "+converted_audio_files[i])
