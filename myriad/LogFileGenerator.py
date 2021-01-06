@@ -54,7 +54,7 @@ def splitLogToHours(log_entry_lines: list) -> list:
         else:
             log_hours[len(log_hours)-1] += log_entry
 
-        #log_hours[len(log_hours)-1] += "\n"
+        # log_hours[len(log_hours)-1] += "\n"
 
     return sorted(log_hours, key=lambda x: datetime.strptime(x[1:17], "%d/%m/%Y %H:%M"))
 
@@ -69,7 +69,7 @@ def reorderLogFile(log_file_path: str):
         log_file.writelines(sorted_hours)
 
 
-def writeLogFile(log_directory: str, log_entry_lines: list):
+def writeLogFile(log_directory: str, log_entry_lines: list, v5=False):
     # Concat each string of log hours into string hour-chunks
 
     log_hours = splitLogToHours(log_entry_lines)
@@ -86,8 +86,9 @@ def writeLogFile(log_directory: str, log_entry_lines: list):
     for l in log_hours:
         # Write the log hour to file
         date_current_hour = datetime.strptime(l[1:17], "%d/%m/%Y %H:%M")
-        current_hour_log_path = os.path.join(
-            "C:\\PSquared\\Logs", date_current_hour.strftime("MY%y%m%d.LOG"))
+        filename = date_current_hour.strftime("%y%m%d.LOG")) if v5 else date_current_hour.strftime("MY%y%m%d.LOG"))
+        current_hour_log_path=os.path.join(
+            log_directory, date_current_hour.strftime("MY%y%m%d.LOG"))
 
         # If it already exists, keep track of it as one we'll need to sort by hour later
         if os.path.exists(current_hour_log_path) and not current_hour_log_path in log_files_to_reorganize:
